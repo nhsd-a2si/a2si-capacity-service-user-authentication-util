@@ -6,6 +6,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Unit test for simple App.
@@ -41,6 +42,13 @@ public class AppTest
         for(int i = 0; i <= 100; i++){
             assertThat(App.Type.random(), anyOf(is(App.Type.NUMBER), is(App.Type.UPPER_LETTER), is(App.Type.LOWER_LETTER)));
         }
+    }
+
+    @Test
+    public void generateSaltedPassword(){
+        String password = App.randomStringWithFixedSizeOf(40);
+        String saltedPassword = App.generateSaltedPassword(password);
+        assertTrue(new BCryptPasswordEncoder().matches(password, saltedPassword));
     }
 
 }

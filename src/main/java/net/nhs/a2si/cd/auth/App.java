@@ -12,10 +12,10 @@ public class App
 
     public static void main( String[] args )
     {
-        final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         final String username = App.randomStringWithFixedSizeOf(40);
         final String password = App.randomStringWithFixedSizeOf(60);
-        final String saltedPassword = passwordEncoder.encode(username);
+        final String saltedPassword = App.generateSaltedPassword(password);
 
         System.out.println();
         System.out.println();
@@ -38,7 +38,17 @@ public class App
         System.out.println("CLIENT_NAME: <name of client>");
         System.out.println(DEMARCATION);
 
+        System.out.println();
+        System.out.println();
+        System.out.println("Tests");
+        System.out.println(DEMARCATION);
+        System.out.println("Password matches salted password: " + new BCryptPasswordEncoder().matches(password, saltedPassword));
+        System.out.println(DEMARCATION);
 
+    }
+
+    public static String generateSaltedPassword(String password){
+        return new BCryptPasswordEncoder().encode(password);
     }
 
 
